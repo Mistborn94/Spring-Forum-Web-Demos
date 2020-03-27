@@ -32,9 +32,7 @@ public class DragonHandler {
     }
 
     public Mono<ServerResponse> getDragonsByLocation(ServerRequest serverRequest) {
-        final Flux<Dragon> locationDragons = Mono.just(serverRequest.queryParam("location"))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+        final Flux<Dragon> locationDragons = Mono.justOrEmpty(serverRequest.queryParam("location"))
                 .flatMapMany(dragonRepository::findByLocation);
 
         return ServerResponse.ok().body(locationDragons, Dragon.class);
