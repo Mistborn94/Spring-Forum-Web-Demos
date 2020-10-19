@@ -1,6 +1,6 @@
-INSERT INTO dragons
-VALUES (1, 'Smaug', 'Middle Earth'),
-        (2, 'Toothless', 'Berk'),
-        (3, 'Mushu', 'China'),
-        (4, 'Stormfly', 'Berk'),
-        (5, 'Falkor', 'Fantastica');
+INSERT INTO dragons ("NAME", "LOCATION")
+VALUES ('Smaug', 'Middle Earth'),
+        ('Toothless', 'Berk'),
+        ('Mushu', 'China'),
+        ('Stormfly', 'Berk'),
+        ('Falkor', 'Fantastica');

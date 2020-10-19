@@ -3,16 +3,16 @@ package webfluxdemo
 import org.junit.jupiter.api.Test
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import reactor.core.publisher.SignalType
 
 internal class ReactorDemo {
+
     @Test
     fun intro() {
-        val mono = Mono.just("Hello World!")
-        mono.map { obj: String -> obj.toUpperCase() }
+        Mono.just("Hello World!")
+                .map { obj: String -> obj.toUpperCase() }
                 .subscribe { x: String? -> println(x) }
-        val flux = Flux.just("Hello", "World", "!")
-        flux.map { obj: String -> obj.toUpperCase() }
+
+        Flux.just("Hello", "World", "!").map { obj: String -> obj.toUpperCase() }
                 .subscribe { x: String? -> println(x) }
     }
 
