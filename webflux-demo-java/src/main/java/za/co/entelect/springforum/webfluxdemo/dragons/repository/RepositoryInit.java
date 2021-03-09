@@ -3,7 +3,7 @@ package za.co.entelect.springforum.webfluxdemo.dragons.repository;
 import io.r2dbc.spi.ConnectionFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.data.r2dbc.connectionfactory.init.ResourceDatabasePopulator;
+import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator;
 
 import javax.annotation.PostConstruct;
 
@@ -23,6 +23,6 @@ public class RepositoryInit {
 
     @PostConstruct
     public void init() {
-        resourceDatabasePopulator.execute(connectionFactory).subscribe();
+        resourceDatabasePopulator.populate(connectionFactory).subscribe();
     }
 }

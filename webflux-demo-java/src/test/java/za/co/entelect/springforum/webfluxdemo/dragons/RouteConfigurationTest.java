@@ -7,20 +7,21 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Flux;
+import za.co.entelect.springforum.webfluxdemo.dragons.repository.DragonRepository;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class RouteConfigurationTest {
+class RouteConfigurationTest {
 
     @Mock
-    DragonHandler dragonHandler;
+    DragonRepository dragonRepository;
 
     @InjectMocks
-    RouteConfiguration routeConfiguration;
+    DragonsFunctionalRoutes routeConfiguration;
 
     WebTestClient webTestClient;
 
@@ -30,15 +31,15 @@ public class RouteConfigurationTest {
     }
 
     @Test
-    public void dragonByLocation() {
-        when(dragonHandler.getDragonsByLocation(any())).thenReturn(ServerResponse.ok().build());
+    void dragonByLocation() {
+        when(dragonRepository.findByLocation(any())).thenReturn(Flux.just(new Dragon(1, "Toothless", "Berk")));
 
         webTestClient.get()
-                .uri("/dragons?location=Berk")
+                .uri("/fn/dragons?location=Berk")
                 .exchange()
                 .expectStatus().isOk();
 
-        verify(dragonHandler).getDragonsByLocation(any());
+        verify(dragonRepository).findByLocation("Berk");
     }
 
 }

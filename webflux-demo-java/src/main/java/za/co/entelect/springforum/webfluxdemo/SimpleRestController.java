@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,10 +17,11 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 @RestController
+@RequestMapping("/intro")
 public class SimpleRestController {
 
     private final WebClient webClient;
-    private ThreadLocalRandom random = ThreadLocalRandom.current();
+    private final ThreadLocalRandom random = ThreadLocalRandom.current();
 
     public SimpleRestController(WebClient webClient) {
         this.webClient = webClient;

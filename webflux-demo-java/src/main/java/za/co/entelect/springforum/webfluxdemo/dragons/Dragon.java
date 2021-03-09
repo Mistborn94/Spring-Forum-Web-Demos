@@ -6,6 +6,8 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.net.URI;
+
 @Data
 @AllArgsConstructor
 @Table("dragons")
@@ -16,4 +18,8 @@ public class Dragon {
 
     private final String name;
     private final String location;
+
+    URI uri() {
+        return URI.create("/dragons/" + getName());
+    }
 }
