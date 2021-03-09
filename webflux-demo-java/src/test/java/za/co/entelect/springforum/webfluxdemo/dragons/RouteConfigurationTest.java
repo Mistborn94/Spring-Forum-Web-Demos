@@ -1,11 +1,9 @@
 package za.co.entelect.springforum.webfluxdemo.dragons;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import za.co.entelect.springforum.webfluxdemo.dragons.repository.DragonRepository;
@@ -14,21 +12,14 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+@WebFluxTest(DragonsFunctionalRoutes.class)
 class RouteConfigurationTest {
 
-    @Mock
+    @MockBean
     DragonRepository dragonRepository;
 
-    @InjectMocks
-    DragonsFunctionalRoutes routeConfiguration;
-
+    @Autowired
     WebTestClient webTestClient;
-
-    @BeforeEach
-    public void init() {
-        webTestClient = WebTestClient.bindToRouterFunction(routeConfiguration.dragonRoutes()).build();
-    }
 
     @Test
     void dragonByLocation() {
@@ -40,6 +31,18 @@ class RouteConfigurationTest {
                 .expectStatus().isOk();
 
         verify(dragonRepository).findByLocation("Berk");
+    }
+
+    @Test
+    void allDragons() {
+        when(dragonRepository.findAll()).thenReturn(Flux.just(new Dragon(1, "Toothless", "Berk")));
+
+        webTestClient.get()
+                .uri("/fn/dragons")
+                .exchange()
+                .expectStatus().isOk();
+
+        verify(dragonRepository).findAll();
     }
 
 }
